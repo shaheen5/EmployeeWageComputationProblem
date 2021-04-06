@@ -1,5 +1,10 @@
 package EmployeeWageProblem;
 
+  interface IComputeEmpWage{
+	   public void addCompanyEmpWage(String company,int empRatePerHour,int numOfWorkingDays,int maxHoursPerMonth);
+	   public void computeEmpWage();
+  }
+
   class CompanyEmployeeWage {
 	   public  final String company ;
 	   public  final int empRatePerHour;
@@ -24,34 +29,34 @@ package EmployeeWageProblem;
 	   }
   }
 
-  public class EmployeeWageBuilder {
-  	  public static final int IS_PART_TIME=1;
-          public static final int IS_FULL_TIME=2;
-	  private int numOfCompany=0;
-	  private CompanyEmployeeWage[] companyEmpWageArray;
+  public class EmployeeWageBuilder implements IComputeEmpWage {
+  	   public static final int IS_PART_TIME=1;
+       public static final int IS_FULL_TIME=2;
+	   private int numOfCompany=0;
+	   private CompanyEmployeeWage[] companyEmpWageArray;
 
-       	  public EmployeeWageBuilder() {
-		companyEmpWageArray = new CompanyEmployeeWage[5];
-       	  }
+       public EmployeeWageBuilder() {
+		 companyEmpWageArray = new CompanyEmployeeWage[5];
+       }
 
-	  private void addCompanyEmpWage(String company,int empRatePerHour,int numOfWorkingDays,int maxHoursPerMonth) {
-		companyEmpWageArray[numOfCompany]=new CompanyEmployeeWage(company,empRatePerHour,numOfWorkingDays,maxHoursPerMonth);
-		numOfCompany++;
-	  }
+	   public void addCompanyEmpWage(String company,int empRatePerHour,int numOfWorkingDays,int maxHoursPerMonth) {
+		 companyEmpWageArray[numOfCompany]=new CompanyEmployeeWage(company,empRatePerHour,numOfWorkingDays,maxHoursPerMonth);
+		 numOfCompany++;
+	   }
 
-	  private void computeEmpWage() {
-		for (int i=0;i < numOfCompany; i++) {
+	   public void computeEmpWage() {
+		 for (int i=0;i < numOfCompany; i++) {
 			companyEmpWageArray[i].setTotalEmpWage(this.computeEmpWage(companyEmpWageArray[i]));
 			System.out.println(companyEmpWageArray[i]);
-		}
-	  }
+		 }
+	   }
 
-	  private int computeEmpWage(CompanyEmployeeWage companyEmpWage) {
-		//variables
-		int empWorkHours=0,totalEmpWorkingHours=0,totalWorkingDays=0;
-		//Computation
-		while(totalEmpWorkingHours <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numOfWorkingDays) {
-			totalWorkingDays++;
+	   private int computeEmpWage(CompanyEmployeeWage companyEmpWage) {
+		 //variables
+		 int empWorkHours=0,totalEmpWorkingHours=0,totalWorkingDays=0;
+		 //Computation
+	   	 while(totalEmpWorkingHours <= companyEmpWage.maxHoursPerMonth && totalWorkingDays < companyEmpWage.numOfWorkingDays) {
+		 	totalWorkingDays++;
 			int empCheck=(int)Math.floor(Math.random()*10)%3;
 			switch (empCheck) {
 				case IS_PART_TIME: empWorkHours=4;
@@ -61,18 +66,18 @@ package EmployeeWageProblem;
 				default : empWorkHours=0;
 	             		 	  break;
 			}
-			totalEmpWorkingHours += empWorkHours;
-			System.out.println("Day#:"+totalWorkingDays + "  Employee Work Hours:"+empWorkHours);	
-		}
-		return totalEmpWorkingHours * companyEmpWage.empRatePerHour;	
-	  }
+	   	 totalEmpWorkingHours += empWorkHours;
+		 System.out.println("Day#:"+totalWorkingDays + "  Employee Work Hours:"+empWorkHours);	
+		 }
+		 return totalEmpWorkingHours * companyEmpWage.empRatePerHour;	
+	   }
 
-	  public static void main(String[] args) {
-		System.out.println("Welcome to Employee Wage Computation Program !");
-		EmployeeWageBuilder	empWageBuilder=new EmployeeWageBuilder();
-		empWageBuilder.addCompanyEmpWage("Dmart",20,20,100);
-		empWageBuilder.addCompanyEmpWage("Reliance",10,25,120);
-		empWageBuilder.addCompanyEmpWage("Samsung",15,20,80);
-		empWageBuilder.computeEmpWage();
-      	  }
+	   public static void main(String[] args) {
+		 System.out.println("Welcome to Employee Wage Computation Program !");
+		 EmployeeWageBuilder	empWageBuilder=new EmployeeWageBuilder();
+		 empWageBuilder.addCompanyEmpWage("Dmart",20,20,100);
+		 empWageBuilder.addCompanyEmpWage("Reliance",10,25,120);
+		 empWageBuilder.addCompanyEmpWage("Samsung",15,20,80);
+		 empWageBuilder.computeEmpWage();
+       }
    }
