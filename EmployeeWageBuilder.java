@@ -5,6 +5,7 @@ import java.util.HashMap;
   interface IComputeEmpWage{
 	   public void addCompanyEmpWage(String company,int empRatePerHour,int numOfWorkingDays,int maxHoursPerMonth);
 	   public void computeEmpWage();
+	   public int getTotalWage(String company);
   }
 
   class CompanyEmployeeWage {
@@ -46,13 +47,13 @@ import java.util.HashMap;
 		 companyEmpWageList = new ArrayList<>();
 		 companyToEmpWageMap=new HashMap<>();
        }
-
+       //create objects of companyEmpWage and add it in list and map
 	   public void addCompanyEmpWage(String company,int empRatePerHour,int numOfWorkingDays,int maxHoursPerMonth) {
 		 CompanyEmployeeWage companyEmpWage=new CompanyEmployeeWage(company,empRatePerHour,numOfWorkingDays,maxHoursPerMonth);
 		 companyEmpWageList.add(companyEmpWage);
 		 companyToEmpWageMap.put(company, companyEmpWage);
 	   }
-
+	   
 	   public void computeEmpWage() {
 		 for (int i=0;i < companyEmpWageList.size(); i++) {
 			 CompanyEmployeeWage companyEmpWage=companyEmpWageList.get(i);
@@ -60,7 +61,8 @@ import java.util.HashMap;
 			 System.out.println(companyEmpWage);
 		 }
 	   }
-
+	   
+	   //compute employee wage of company
 	   private int computeEmpWage(CompanyEmployeeWage companyEmpWage) {
 		 //variables
 		 int empWorkHours=0,totalEmpWorkingHours=0,totalWorkingDays=0,dailyWage=0;
@@ -82,7 +84,11 @@ import java.util.HashMap;
 		 }
 		 return totalEmpWorkingHours * companyEmpWage.empRatePerHour;	
 	   }
-
+	   
+	   //ability to get total wage by company name
+	   public int getTotalWage(String company) {
+			return companyToEmpWageMap.get(company).totalEmpWage;
+		}
 	   public static void main(String[] args) {
 		 System.out.println("Welcome to Employee Wage Computation Program !");
 		 IComputeEmpWage empWageBuilder=new EmployeeWageBuilder();
@@ -90,5 +96,8 @@ import java.util.HashMap;
 		 empWageBuilder.addCompanyEmpWage("Reliance",10,25,120);
 		 empWageBuilder.addCompanyEmpWage("Samsung",15,20,80);
 		 empWageBuilder.computeEmpWage();
+		 System.out.println("Total Wage for Dmart Company:-"+empWageBuilder.getTotalWage("Dmart"));
+		 System.out.println("Total Wage for Reliance Company:-"+empWageBuilder.getTotalWage("Reliance"));
+		 System.out.println("Total Wage for Samsung Company:-"+empWageBuilder.getTotalWage("Samsung"));
        }
    }
